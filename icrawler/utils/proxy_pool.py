@@ -135,7 +135,7 @@ class ProxyPool(object):
                 which is compatible with requests.Session parameters,
                 otherwise a Proxy object.
         """
-        if not self.proxies[protocol]:
+        if not self.proxies.get(protocol):
             return None
         if policy == 'loop':
             idx = self.idx[protocol]

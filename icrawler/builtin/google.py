@@ -146,9 +146,9 @@ class GoogleParser(Parser):
         images = soup.find_all(name='img')
         uris = []
         for img in images:
-            if img.has_attr('src'):
-                if 'images/branding/' not in img['src']:
-                    img_src = img['src']
+            if img.has_attr('data-src'):
+                if 'images/branding/' not in img['data-src']:
+                    img_src = img['data-src']
                     if not img_src.startswith('http'):
                         img_src = 'https:' + img_src
                     uris.append(img_src)

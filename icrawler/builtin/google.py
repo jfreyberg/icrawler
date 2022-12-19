@@ -148,6 +148,7 @@ class GoogleParser(Parser):
         for img in images:
             if img.has_attr('src'):
                 if 'images/branding/' not in img['src']:
+                    print(img['src'])
                     uris.append(img['src'])
         return [{'file_url': uri} for uri in uris]
 

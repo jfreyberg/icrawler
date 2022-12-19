@@ -142,8 +142,7 @@ class Downloader(ThreadPool):
             task['success'] = True
             task['filename'] = filename
             break
-            finally:
-                retry -= 1
+            retry -= 1
 
     def process_meta(self, task):
         """Process some meta data of the images.

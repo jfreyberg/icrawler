@@ -151,7 +151,7 @@ class GoogleParser(Parser):
                     img_src = img['src']
                     if not img_src.startswith('http'):
                         img_src = 'https:' + img_src
-                    uris.append(img['src'])
+                    uris.append(img_src)
         return [{'file_url': uri} for uri in uris]
 
 

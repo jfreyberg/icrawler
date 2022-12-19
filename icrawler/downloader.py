@@ -125,24 +125,23 @@ class Downloader(ThreadPool):
         while retry > 0 and not self.signal.get('reach_max_num'):
             response = self.session.get(file_url, timeout=timeout)
                 
-            else:
-                if self.reach_max_num():
-                    self.signal.set(reach_max_num=True)
-                    break
-                elif response.status_code != 200:
-                    self.logger.error('Response status code %d, file %s',
-                                      response.status_code, file_url)
-                    break
-                elif not self.keep_file(task, response, **kwargs):
-                    break
-                with self.lock:
-                    self.fetched_num += 1
-                    filename = self.get_filename(task, default_ext)
-                self.logger.info('image #%s\t%s', self.fetched_num, file_url)
-                self.storage.write(filename, response.content)
-                task['success'] = True
-                task['filename'] = filename
+            if self.reach_max_num():
+                self.signal.set(reach_max_num=True)
                 break
+            elif response.status_code != 200:
+                self.logger.error('Response status code %d, file %s',
+                                  response.status_code, file_url)
+                break
+            elif not self.keep_file(task, response, **kwargs):
+                break
+            with self.lock:
+                self.fetched_num += 1
+                filename = self.get_filename(task, default_ext)
+            self.logger.info('image #%s\t%s', self.fetched_num, file_url)
+            self.storage.write(filename, response.content)
+            task['success'] = True
+            task['filename'] = filename
+            break
             finally:
                 retry -= 1
 

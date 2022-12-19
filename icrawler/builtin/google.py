@@ -141,6 +141,16 @@ class GoogleFeeder(Feeder):
 
 class GoogleParser(Parser):
     def parse(self, response):
+    soup = BeautifulSoup(
+        response.content.decode('utf-8', 'ignore'), 'lxml')
+    images = soup.find_all(name='img')
+    uris = []
+    for img in images:
+        if img.has_attr('src'):
+            uris.append(img['src'])
+    return [{'file_url': uri} for uri in uris]
+    
+    def parse(self, response):
         soup = BeautifulSoup(
             response.content.decode('utf-8', 'ignore'), 'lxml')
         #image_divs = soup.find_all('script')
